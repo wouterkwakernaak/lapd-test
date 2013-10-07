@@ -3,7 +3,7 @@ module ADTTestCases
 import LAPD;
 
 public test bool testADTCases() {
-	return assert testADT_1() && testADT_2() && testADT_3() && testADT_4() && testADT_5();
+	return assert testADT_1() && testADT_2() && testADT_3() && testADT_4() && testADT_5() && testADT_6();
 }
 
 data Bool = tt() | ff() | conj(Bool L, Bool R)  | disj(Bool L, Bool R);
@@ -48,6 +48,17 @@ anno str Bool @ someAnnotation;
 public test bool testADT_5() {
 	Bool expected = conj(tt(), ff());
 	expected @ someAnnotation = "someString";
+	str id = generateRandomId();
+	write(id, expected);
+	Bool actual = read(id, #Bool);
+	return assert expected == actual;
+}
+
+anno Bool Bool @ yoDawg;
+
+public test bool testADT_6() {
+	Bool expected = disj(conj(tt(), ff()), ff());	
+	expected @ yoDawg = ff();
 	str id = generateRandomId();
 	write(id, expected);
 	Bool actual = read(id, #Bool);
