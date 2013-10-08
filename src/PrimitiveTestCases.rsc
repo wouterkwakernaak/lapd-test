@@ -6,7 +6,7 @@ import DateTime;
 public test bool testPrimitiveCases() {
 	return assert testBoolean() && testInteger() && testString()
 	&& testReal() && testRational() && testDateTime() && testSourceLocation() 
-	&& testValue() && testNumber();
+	&& testValue() && testNumber() && testAlias();
 }
 
 private test bool testBoolean() {
@@ -78,6 +78,16 @@ private test bool testNumber() {
 	str id = generateRandomId();
 	write(id, expected);
 	num actual = read(id, #num);
+	return assert expected == actual;
+}
+
+alias Id = str;
+
+private test bool testAlias() {
+	Id expected = "something";
+	str id = generateRandomId();
+	write(id, expected);
+	Id actual = read(id, #Id);
 	return assert expected == actual;
 }
 
