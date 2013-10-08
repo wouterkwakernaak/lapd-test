@@ -3,7 +3,7 @@ module TupleTestCases
 import LAPD;
 
 public test bool testTupleCases() {
-	return testTuple() && testNestedTuple();
+	return testTuple() && testNestedTuple() && testTypeParameters();
 }
 
 public test bool testTuple() {
@@ -19,5 +19,13 @@ public test bool testNestedTuple() {
 	str id = generateRandomId();
 	write(id, expected);
 	tuple[real, tuple[str, int]] actual = read(id, #tuple[real, tuple[str, int]]);
+	return assert expected == actual;
+}
+
+private test bool testTypeParameters() {
+	tuple[&A, &B] expected = <1, "one">;
+	str id = generateRandomId();
+	write(id, expected);
+	tuple[&A, &B] actual = read(id, #tuple[&A, &B]);
 	return assert expected == actual;
 }
