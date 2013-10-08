@@ -5,7 +5,8 @@ import DateTime;
 
 public test bool testPrimitiveCases() {
 	return assert testBoolean() && testInteger() && testString()
-	&& testReal() && testRational() && testDateTime() && testSourceLocation();
+	&& testReal() && testRational() && testDateTime() && testSourceLocation() 
+	&& testValue() && testNumber();
 }
 
 private test bool testBoolean() {
@@ -61,6 +62,22 @@ private test bool testSourceLocation() {
 	str id = generateRandomId();
 	write(id, expected);
 	loc actual = read(id, #loc);
+	return assert expected == actual;
+}
+
+private test bool testValue() {
+	value expected = 3;
+	str id = generateRandomId();
+	write(id, expected);
+	value actual = read(id, #value);
+	return assert expected == actual;
+}
+
+private test bool testNumber() {
+	num expected = 3.5;
+	str id = generateRandomId();
+	write(id, expected);
+	num actual = read(id, #num);
 	return assert expected == actual;
 }
 
