@@ -12,6 +12,7 @@ public void runIntegerBenchmarks() {
 	loc file = |file:///ufs/wouterk/databases/textValueIO.io|;
 	measureTextWrite(file);
 	measureTextRead(file);
+	file = |file:///ufs/wouterk/databases/binaryValueIO.io|;
 	measureBinaryWrite(file);
 	measureBinaryRead(file);
 }
