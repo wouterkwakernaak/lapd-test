@@ -11,7 +11,7 @@ data CrazyADT = x() | y(str crazyStr, int crazyInt);
 
 public test bool testADT_1() {
 	Bool expected = tt();
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	Bool actual = read(id, #Bool);
 	return assert expected == actual;
@@ -19,7 +19,7 @@ public test bool testADT_1() {
 
 public test bool testADT_2() {
 	Bool expected = conj(tt(), ff());
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	Bool actual = read(id, #Bool);
 	return assert expected == actual;
@@ -27,7 +27,7 @@ public test bool testADT_2() {
 
 public test bool testADT_3() {
 	CrazyADT expected = y("hello, world", 9);
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	CrazyADT actual = read(id, #CrazyADT);
 	return assert expected == actual;
@@ -37,7 +37,7 @@ public test bool testADT_4() {
 	Bool b1 = ff();
 	Bool b2 = disj(conj(tt(), ff()), ff());	
 	list[Bool] expected = [b1, b2];
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	list[Bool] actual = read(id, #list[Bool]);
 	return assert expected == actual;
@@ -48,7 +48,7 @@ anno str Bool @ someAnnotation;
 public test bool testADT_5() {
 	Bool expected = conj(tt(), ff());
 	expected @ someAnnotation = "someString";
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	Bool actual = read(id, #Bool);
 	return assert expected == actual;
@@ -59,7 +59,7 @@ anno Bool Bool @ yoDawg;
 public test bool testADT_6() {
 	Bool expected = disj(conj(tt(), ff()), ff());	
 	expected @ yoDawg = ff();
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	Bool actual = read(id, #Bool);
 	return assert expected == actual;

@@ -8,7 +8,7 @@ public test bool testMapCases() {
 
 public test bool testMap() {
 	map[int, str] expected = (1: "one", 2: "two", 3: "three");
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	map[int, str] actual = read(id, #map[int, str]);
 	return assert expected == actual;
@@ -16,7 +16,7 @@ public test bool testMap() {
 
 public test bool testNestedMap() {
 	map[int, map[int, str]] expected = (1: (1: "one", 2: "two"), 2: (3: "three", 4: "four"));
-	str id = generateRandomId();
+	str id = generateUniqueId();
 	write(id, expected);
 	map[int, map[int, str]] actual = read(id, #map[int, map[int, str]]);
 	return assert expected == actual;
