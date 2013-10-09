@@ -1,4 +1,4 @@
-module TupleTestCases
+module UnitTests::TupleTestCases
 
 import LAPD;
 

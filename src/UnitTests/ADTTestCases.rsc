@@ -1,4 +1,4 @@
-module ADTTestCases
+module UnitTests::ADTTestCases
 
 import LAPD;
 

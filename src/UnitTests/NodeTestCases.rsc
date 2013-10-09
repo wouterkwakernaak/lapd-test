@@ -1,4 +1,4 @@
-module NodeTestCases
+module UnitTests::NodeTestCases
 
 import LAPD;
 

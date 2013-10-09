@@ -1,4 +1,4 @@
-module ListTestCases
+module UnitTests::ListTestCases
 
 import LAPD;
 

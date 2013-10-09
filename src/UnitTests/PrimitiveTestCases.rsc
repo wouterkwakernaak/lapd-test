@@ -1,4 +1,4 @@
-module PrimitiveTestCases
+module UnitTests::PrimitiveTestCases
 
 import LAPD;
 import DateTime;

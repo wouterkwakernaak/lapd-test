@@ -1,4 +1,4 @@
-module MapTestCases
+module UnitTests::MapTestCases
 
 import LAPD;
 

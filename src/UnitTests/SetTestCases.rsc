@@ -1,4 +1,4 @@
-module SetTestCases
+module UnitTests::SetTestCases
 
 import LAPD;
 
