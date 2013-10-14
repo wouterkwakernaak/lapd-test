@@ -1,4 +1,4 @@
-module Benchmark::IntegerBenchmark
+module Benchmarks::IntegerBenchmark
 
 import LAPD;
 import IO;
