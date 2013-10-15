@@ -9,6 +9,6 @@ import UnitTests::MapTestCases;
 import UnitTests::SetTestCases;
 
 public test bool testAll() {
-	return assert testPrimitiveCases() && testADTCases() && testListCases() && testNodeCases() 
+	return testPrimitiveCases() && testADTCases() && testListCases() && testNodeCases() 
 	&& testTupleCases() && testMapCases() && testSetCases();
 }

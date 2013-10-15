@@ -3,7 +3,7 @@ module UnitTests::NodeTestCases
 import LAPD;
 
 public test bool testNodeCases() {
-	return assert testNode() && testNodeWithAnnotation() && testNodeWithADT() && testNodeWithAnnotatedADT();
+	return testNode() && testNodeWithAnnotation() && testNodeWithADT() && testNodeWithAnnotatedADT();
 }
 
 private test bool testNode() {

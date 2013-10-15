@@ -4,7 +4,7 @@ import LAPD;
 import DateTime;
 
 public test bool testPrimitiveCases() {
-	return assert testBoolean() && testInteger() && testString()
+	return testBoolean() && testInteger() && testString()
 	&& testReal() && testRational() && testDateTime() && testSourceLocation() 
 	&& testValue() && testNumber() && testAlias();
 }

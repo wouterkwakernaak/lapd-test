@@ -3,7 +3,7 @@ module UnitTests::ADTTestCases
 import LAPD;
 
 public test bool testADTCases() {
-	return assert testADT_1() && testADT_2() && testADT_3() && testADT_4() && testADT_5() && testADT_6();
+	return testADT_1() && testADT_2() && testADT_3() && testADT_4() && testADT_5() && testADT_6();
 }
 
 data Bool = tt() | ff() | conj(Bool L, Bool R)  | disj(Bool L, Bool R);
