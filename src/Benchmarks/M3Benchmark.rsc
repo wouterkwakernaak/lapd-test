@@ -10,10 +10,10 @@ public void runM3Benchmarks() {
 	str id = generateUniqueId();
 	M3 v = createM3FromEclipseProject(|project://lapd|);
 	println("retrieved M3 model");
-	loc file = |file:///ufs/wouterk/databases/textValueIO.io|;
+	loc file = getDbDirectoryPath() + "textValueIO.io";
 	measureTextWrite(file, v);
 	measureTextRead(file);
-	file = |file:///ufs/wouterk/databases/binaryValueIO.io|;
+	file = getDbDirectoryPath() + "binaryValueIO.io";
 	measureBinaryWrite(file, v);
 	measureBinaryRead(file);
 	measureLapdWrite(id, v);

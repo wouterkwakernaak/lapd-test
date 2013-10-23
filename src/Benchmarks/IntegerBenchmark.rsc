@@ -9,10 +9,10 @@ public void runIntegerBenchmarks() {
 	str id = generateUniqueId();
 	measureLapdWrite(id);
 	measureLapdRead(id);
-	loc file = |file:///ufs/wouterk/databases/textValueIO.io|;
+	loc file = getDbDirectoryPath() + "textValueIO.io";
 	measureTextWrite(file);
 	measureTextRead(file);
-	file = |file:///ufs/wouterk/databases/binaryValueIO.io|;
+	file = getDbDirectoryPath() + "binaryValueIO.io";
 	measureBinaryWrite(file);
 	measureBinaryRead(file);
 }
