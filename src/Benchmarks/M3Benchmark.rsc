@@ -3,6 +3,7 @@ module Benchmarks::M3Benchmark
 import LAPD;
 import IO;
 import ValueIO;
+import List;
 import util::Benchmark;
 import lang::java::jdt::m3::Core;
 
@@ -17,7 +18,7 @@ public void runM3Benchmarks() {
 	measureBinaryWrite(file, v);
 	measureBinaryRead(file);
 	measureLapdWrite(id, v);
-	measureLapdRead(id);
+	measureLapdRead(id, v);
 }
 
 private void measureLapdWrite(str id, M3 v)
@@ -29,13 +30,21 @@ private void measureLapdWrite(str id, M3 v)
 	println("write m3 model to lapd = <used> milliseconds");
 }
 
-private void measureLapdRead(str id)
+private void measureLapdRead(str id, M3 v)
 {
 	println("reading from lapd...");
 	begin = realTime();
-	M3 x = read(id, #M3);
+	M3 x = read(id, #M3);	
 	used = realTime() - begin;
 	println("read m3 model from lapd = <used> milliseconds");
+	assert v@declarations == x@declarations;
+	assert v@messages == x@messages;
+	assert v@uses == x@uses;
+	assert v@containment == x@containment;
+	assert v@names == x@names;
+	assert v@documentation == x@documentation;
+	assert v@modifiers == x@modifiers;
+	assert v@types == x@types;
 }
 
 private void measureTextWrite(loc file, M3 v) {
