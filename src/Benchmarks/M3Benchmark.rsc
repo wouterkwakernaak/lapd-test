@@ -37,14 +37,6 @@ private void measureLapdRead(str id, M3 v)
 	M3 x = read(id, #M3);	
 	used = realTime() - begin;
 	println("read m3 model from lapd = <used> milliseconds");
-	//println(v@messages);
-	//println(x@messages);
-	//println(size(v@messages));
-	//println(size(x@messages));
-	//for (n <- v@messages) {
-	//	if (!(n in x@messages))
-	//		println(n);
-	//}
 	assert v@messages == x@messages;
 	assert v@uses == x@uses;
 	assert v@containment == x@containment;
