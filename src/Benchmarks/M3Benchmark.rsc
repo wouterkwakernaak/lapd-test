@@ -44,7 +44,13 @@ private void measureLapdRead(str id, M3 v)
 	assert v@documentation == x@documentation;
 	assert v@modifiers == x@modifiers;
 	assert v@types == x@types;
-	assert v@declarations == x@declarations;	
+	assert v@declarations == x@declarations;
+	assert v@extends == x@extends;
+	assert v@implements == x@implements;
+	assert v@methodInvocation == x@methodInvocation;
+	assert v@fieldAccess == x@fieldAccess;
+	assert v@typeDependency == x@typeDependency;
+	assert v@methodOverrides == x@methodOverrides;
 }
 
 private void measureTextWrite(loc file, M3 v) {
