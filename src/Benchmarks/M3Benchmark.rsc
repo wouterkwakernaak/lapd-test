@@ -9,7 +9,7 @@ import lang::java::jdt::m3::Core;
 
 public void runM3Benchmarks() {
 	str id = generateUniqueId();
-	M3 v = createM3FromEclipseProject(|project://lapd|);
+	M3 v = createM3FromEclipseProject(|project://smallsql_0.21_src|);
 	println("retrieved M3 model");
 	loc file = getDbDirectoryPath() + "textValueIO.io";
 	measureTextWrite(file, v);
