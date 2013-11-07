@@ -3,60 +3,61 @@ module Benchmarks::IntegerBenchmark
 import LAPD;
 import IO;
 import ValueIO;
+import Benchmarks::Util;
 import util::Benchmark;
 
-public void runIntegerBenchmarks() {
-	str id = generateUniqueId();
-	measureLapdWrite(id);
-	measureLapdRead(id);
-	loc file = getDbDirectoryPath() + "textValueIO.io";
-	measureTextWrite(file);
-	measureTextRead(file);
-	file = getDbDirectoryPath() + "binaryValueIO.io";
-	measureBinaryWrite(file);
-	measureBinaryRead(file);
+public void runAndPrintAnIntegerBenchmark() {
+	str id = generateId();
+	println("write integer to lapd = <measureLapdIntWrite(id)> milliseconds");
+	println("read integer from lapd = <measureLapdIntRead(id)> milliseconds");
+	loc file = grabTextFileLoc();
+	println("write integer to textfile = <measureTextIntWrite(file)> milliseconds");
+	println("read integer from textfile = <measureTextIntRead(file)> milliseconds");
+	file = grabBinaryFileLoc();	
+	println("write integer to binary file = <measureBinaryIntWrite(file)> milliseconds");	
+	println("read integer from binary file = <measureBinaryIntRead(file)> milliseconds");
 }
 
-private void measureLapdWrite(str id)
+public int measureLapdIntWrite(str id)
 {
 	begin = realTime();
 	write(id, 5);
 	used = realTime() - begin;
-	println("write integer to lapd = <used> milliseconds");
+	return used;
 }
 
-private void measureLapdRead(str id)
+public int measureLapdIntRead(str id)
 {
 	begin = realTime();
 	int x = read(id, #int);
 	used = realTime() - begin;
-	println("read integer from lapd = <used> milliseconds");
+	return used;
 }
 
-private void measureTextWrite(loc file) {
+public int measureTextIntWrite(loc file) {
 	begin = realTime();
 	writeTextValueFile(file, 5);
 	used = realTime() - begin;
-	println("write integer to textfile = <used> milliseconds");
+	return used;
 }
 
-private void measureTextRead(loc file) {
+public int measureTextIntRead(loc file) {
 	begin = realTime();
 	int x = readTextValueFile(#int, file);
 	used = realTime() - begin;
-	println("read integer from textfile = <used> milliseconds");
+	return used;
 }
 
-private void measureBinaryWrite(loc file) {
+public int measureBinaryIntWrite(loc file) {
 	begin = realTime();
 	writeBinaryValueFile(file, 5);
 	used = realTime() - begin;
-	println("write integer to binary file = <used> milliseconds");
+	return used;
 }
 
-private void measureBinaryRead(loc file) {
+public int measureBinaryIntRead(loc file) {
 	begin = realTime();
 	int x = readBinaryValueFile(#int, file);
 	used = realTime() - begin;
-	println("read integer from binary file = <used> milliseconds");
+	return used;
 }

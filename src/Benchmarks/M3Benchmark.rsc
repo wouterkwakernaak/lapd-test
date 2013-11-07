@@ -3,84 +3,64 @@ module Benchmarks::M3Benchmark
 import LAPD;
 import IO;
 import ValueIO;
-import List;
+import Benchmarks::Util;
 import util::Benchmark;
 import lang::java::jdt::m3::Core;
 
-public void runM3Benchmarks() {
-	str id = generateUniqueId();
-	M3 v = createM3FromEclipseProject(|project://smallsql_0.21_src|);
-	println("retrieved M3 model");
-	loc file = getDbDirectoryPath() + "textValueIO.io";
-	measureTextWrite(file, v);
-	measureTextRead(file);
-	file = getDbDirectoryPath() + "binaryValueIO.io";
-	measureBinaryWrite(file, v);
-	measureBinaryRead(file);
-	measureLapdWrite(id, v);
-	measureLapdRead(id, v);
+public void runAndPrintAnM3Benchmark() {
+	str id = generateId();
+	M3 v = createM3FromEclipseProject(smallAnalysisProjectLoc);
+	println("write m3 model to lapd = <measureLapdM3Write(id, v)> milliseconds");	
+	println("read m3 model from lapd = <measureLapdM3Read(id, v)> milliseconds");
+	loc file = grabTextFileLoc();
+	println("write m3 model to textfile = <measureTextM3Write(file, v)> milliseconds");	
+	println("read m3 model from textfile = <measureTextM3Read(file)> milliseconds");
+	file = grabBinaryFileLoc();	
+	println("write m3 model to binary file = <measureBinaryM3Write(file, v)> milliseconds");	
+	println("read m3 model from binary file = <measureBinaryM3Read(file)> milliseconds");	
+	
 }
 
-private void measureLapdWrite(str id, M3 v)
+public int measureLapdM3Write(str id, M3 v)
 {
-	println("writing to lapd...");
 	begin = realTime();
 	write(id, v);
 	used = realTime() - begin;
-	println("write m3 model to lapd = <used> milliseconds");
+	return used;
 }
 
-private void measureLapdRead(str id, M3 v)
+public int measureLapdM3Read(str id, M3 v)
 {
-	println("reading from lapd...");
 	begin = realTime();
 	M3 x = read(id, #M3);	
 	used = realTime() - begin;
-	println("read m3 model from lapd = <used> milliseconds");
-	assert v@messages == x@messages;
-	assert v@uses == x@uses;
-	assert v@containment == x@containment;
-	assert v@names == x@names;
-	assert v@documentation == x@documentation;
-	assert v@modifiers == x@modifiers;
-	assert v@types == x@types;
-	assert v@declarations == x@declarations;
-	assert v@extends == x@extends;
-	assert v@implements == x@implements;
-	assert v@methodInvocation == x@methodInvocation;
-	assert v@fieldAccess == x@fieldAccess;
-	assert v@typeDependency == x@typeDependency;
-	assert v@methodOverrides == x@methodOverrides;
+	return used;
 }
 
-private void measureTextWrite(loc file, M3 v) {
-	println("writing to textfile...");
+public int measureTextM3Write(loc file, M3 v) {
 	begin = realTime();
 	writeTextValueFile(file, v);
 	used = realTime() - begin;
-	println("write m3 model to textfile = <used> milliseconds");
+	return used;
 }
 
-private void measureTextRead(loc file) {
-	println("reading from text file...");
+public int measureTextM3Read(loc file) {
 	begin = realTime();
 	M3 x = readTextValueFile(#M3, file);
 	used = realTime() - begin;
-	println("read m3 model from textfile = <used> milliseconds");
+	return used;
 }
 
-private void measureBinaryWrite(loc file, M3 v) {
-	println("writing to binary file...");
+public int measureBinaryM3Write(loc file, M3 v) {
 	begin = realTime();
 	writeBinaryValueFile(file, v);
 	used = realTime() - begin;
-	println("write m3 model to binary file = <used> milliseconds");
+	return used;
 }
 
-private void measureBinaryRead(loc file) {
-	println("reading from binary file...");
+public int measureBinaryM3Read(loc file) {
 	begin = realTime();
 	M3 x = readBinaryValueFile(#M3, file);
 	used = realTime() - begin;
-	println("read m3 model from binary file = <used> milliseconds");
+	return used;
 }
