@@ -8,20 +8,21 @@ import util::Benchmark;
 
 public void runAndPrintAnIntegerBenchmark() {
 	str id = generateId();
-	println("write integer to lapd = <measureLapdIntWrite(id)> milliseconds");
+	int intValue = 5;
+	println("write integer to lapd = <measureLapdIntWrite(id, intValue)> milliseconds");
 	println("read integer from lapd = <measureLapdIntRead(id)> milliseconds");
 	loc file = grabTextFileLoc();
-	println("write integer to textfile = <measureTextIntWrite(file)> milliseconds");
+	println("write integer to textfile = <measureTextIntWrite(file, intValue)> milliseconds");
 	println("read integer from textfile = <measureTextIntRead(file)> milliseconds");
 	file = grabBinaryFileLoc();	
-	println("write integer to binary file = <measureBinaryIntWrite(file)> milliseconds");	
+	println("write integer to binary file = <measureBinaryIntWrite(file, intValue)> milliseconds");	
 	println("read integer from binary file = <measureBinaryIntRead(file)> milliseconds");
 }
 
-public int measureLapdIntWrite(str id)
+public int measureLapdIntWrite(str id, int v)
 {
 	begin = realTime();
-	write(id, 5);
+	write(id, v);
 	used = realTime() - begin;
 	return used;
 }
@@ -34,9 +35,9 @@ public int measureLapdIntRead(str id)
 	return used;
 }
 
-public int measureTextIntWrite(loc file) {
+public int measureTextIntWrite(loc file, int v) {
 	begin = realTime();
-	writeTextValueFile(file, 5);
+	writeTextValueFile(file, v);
 	used = realTime() - begin;
 	return used;
 }
@@ -48,9 +49,9 @@ public int measureTextIntRead(loc file) {
 	return used;
 }
 
-public int measureBinaryIntWrite(loc file) {
+public int measureBinaryIntWrite(loc file, int v) {
 	begin = realTime();
-	writeBinaryValueFile(file, 5);
+	writeBinaryValueFile(file, v);
 	used = realTime() - begin;
 	return used;
 }
