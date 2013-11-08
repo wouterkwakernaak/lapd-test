@@ -3,7 +3,9 @@ module Benchmarks::Util
 import LAPD;
 import DateTime;
 
-public loc smallAnalysisProjectLoc = |project://smallsql_0.21_src|;
+public loc smallAnalysisProjectLoc = |project://lapd|;
+
+public loc smallJavaFile = |project://smallsql_0.21_src/src/smallsql/database/Column.java|;
 
 public loc grabTextFileLoc() {
 	return getDbDirectoryPath() + "textValueIO.io";

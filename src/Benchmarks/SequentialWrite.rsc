@@ -2,9 +2,12 @@ module Benchmarks::SequentialWrite
 
 import Benchmarks::IntegerBenchmark;
 import Benchmarks::M3Benchmark;
+import Benchmarks::ASTBenchmark;
 import Benchmarks::Util;
 import lang::csv::IO;
-import lang::java::jdt::m3::Core;
+import lang::java::m3::Core;
+import lang::java::m3::AST;
+import IO;
 
 public void benchSequentialIntWrite() {
 	int runs = 100;
@@ -13,6 +16,16 @@ public void benchSequentialIntWrite() {
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
+	writeCSV(results, file);
+}
+
+public void benchSequentialASTWrite() {
+	int runs = 100;
+	Declaration ast = createSmallAST();
+	loc file = grabBenchmarkResultsLoc("AST-sequential-write");
+	rel[str store, int time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
+	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
+	<"binary file", binaryWrite(runs, ast, measureBinaryASTWrite)>};
 	writeCSV(results, file);
 }
 

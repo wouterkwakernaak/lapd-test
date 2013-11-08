@@ -3,9 +3,9 @@ module Usecases::Querying
 import IO;
 import LAPD;
 import lang::java::jdt::m3::Core;
-import lang::java::jdt::m3::AST;
+import lang::java::m3::AST;
 
-private str m3Id = "lapd M3 modelx";
+private str m3Id = "lapd M3 modelyo";
 private str ASTsId = "lapd ASTs";
 private loc prjLoc = |project://lapd|;
 
