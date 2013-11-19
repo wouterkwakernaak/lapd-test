@@ -11,31 +11,31 @@ import IO;
 
 public void benchSequentialIntWrite() {
 	int runs = 100;
-	int intValue = 5;
-	loc file = grabBenchmarkResultsLoc("integer-sequential-write");
+	int intValue = 5;	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
+	loc file = grabBenchmarkResultsLoc("integer-sequential-write");
 	writeCSV(results, file);
 }
 
 public void benchSequentialASTWrite() {
 	int runs = 100;
-	Declaration ast = createSmallAST();
-	loc file = grabBenchmarkResultsLoc("AST-sequential-write");
+	Declaration ast = createSmallAST();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
 	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
 	<"binary file", binaryWrite(runs, ast, measureBinaryASTWrite)>};
+	loc file = grabBenchmarkResultsLoc("AST-sequential-write");
 	writeCSV(results, file);
 }
 
 public void benchSequentialSmallM3Write() {
-	int runs = 10;
-	M3 m3 = createSmallM3();
-	loc file = grabBenchmarkResultsLoc("M3-sequential-write");
+	int runs = 100;
+	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 
 	<"binary file", binaryWrite(runs, m3, measureBinaryM3Write)>};
+	loc file = grabBenchmarkResultsLoc("M3-sequential-write");
 	writeCSV(results, file);
 }
 
