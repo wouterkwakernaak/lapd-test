@@ -30,7 +30,7 @@ public void benchSequentialASTWrite() {
 }
 
 public void benchSequentialSmallM3Write() {
-	int runs = 100;
+	int runs = 10;
 	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 
