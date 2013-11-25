@@ -10,7 +10,7 @@ import lang::java::m3::AST;
 import IO;
 
 public void benchSequentialIntRead() {
-	int runs = 100;
+	int runs = 50;
 	int intValue = 5;	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, intValue, measureLapdIntWrite, measureLapdIntRead)>, 
 	<"text file", textRead(runs, intValue, measureTextIntWrite, measureTextIntRead)>, 
@@ -20,17 +20,17 @@ public void benchSequentialIntRead() {
 }
 
 public void benchSequentialASTRead() {
-	int runs = 100;
+	int runs = 50;
 	Declaration ast = createSmallAST();	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, ast, measureLapdASTWrite, measureLapdASTRead)>, 
-	<"text file", textRead(runs, ast, measureTextASTWrite, measureTextASTRead)>, 
+	<"text file", 0>, 
 	<"binary file", binaryRead(runs, ast, measureBinaryASTWrite, measureBinaryASTRead)>};
 	loc file = grabBenchmarkResultsLoc("AST-sequential-read");
 	writeCSV(results, file);
 }
 
 public void benchSequentialSmallM3Read() {
-	int runs = 10;
+	int runs = 5;
 	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, m3, measureLapdM3Write, measureLapdM3Read)>, 
 	<"text file", textRead(runs, m3, measureTextM3Write, measureTextM3Read)>, 
@@ -40,8 +40,9 @@ public void benchSequentialSmallM3Read() {
 }
 
 private int lapdRead(int runs, &T v, int(str, &T) writeFunc, int(str) readFunc) {	
-	str id = generateId();
-	writeFunc(id, v);
+	//str id = generateId();
+	//writeFunc(id, v);
+	str id = "hsqldb";
 	int total = 0;	
 	for (n <- [0..runs]) {
 		total += readFunc(id);

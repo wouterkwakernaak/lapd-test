@@ -10,8 +10,8 @@ import lang::java::m3::AST;
 import IO;
 
 public void benchSequentialIntWrite() {
-	int runs = 100;
-	int intValue = 5;	
+	int runs = 50;
+	int intValue = 7;	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
@@ -20,7 +20,7 @@ public void benchSequentialIntWrite() {
 }
 
 public void benchSequentialASTWrite() {
-	int runs = 100;
+	int runs = 50;
 	Declaration ast = createSmallAST();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
 	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
@@ -30,7 +30,7 @@ public void benchSequentialASTWrite() {
 }
 
 public void benchSequentialSmallM3Write() {
-	int runs = 10;
+	int runs = 5;
 	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 

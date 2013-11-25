@@ -9,6 +9,10 @@ private str m3Id = "lapd M3 modelyo";
 private str ASTsId = "lapd ASTs";
 private loc prjLoc = |project://lapd|;
 
+public void storeTestPrj() {
+	write("javatest", createM3FromEclipseProject(|project://javatest|));
+}
+
 public void storeAnM3Model() {
 	write(m3Id, createM3FromEclipseProject(prjLoc));
 }
@@ -46,5 +50,32 @@ public void queryASTs() {
 	set[Declaration] asts = executeQuery("start n=node:nodes(id = \'" + ASTsId + "\') return n", #set[Declaration]);
 	for (n <- asts)
 		println(n);
+}
+
+public void queryRecursiveMethods() {
+	value v = executeQuery("start n=node:nodes(id = \'javatest\') match n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0..]-\>()-[:HEAD]-\>from-[:NEXT_ELEMENT]-\>to where anno.annotation = \'methodInvocation\' and from.loc = to.loc return from");
+	println(v);
+	//for (x <- v) {
+		//println(x);
+	//}
+}
+
+public void queryRecursiveMethodz() {
+	value v = executeQuery("start n=node:nodes(id = \'javatest\') match p=n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0]-\>x where anno.annotation = \'methodInvocation\' return x");
+	println(v);
+	//for (x <- v) {
+		//println(x);
+	//}
+}
+
+public void queryMethodInvocations() {
+	rel[loc from, loc to] v = executeQuery("start n=node:nodes(id = \'javatest\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'methodInvocation\' return anno", #rel[loc from, loc to]);
+	//println(v);
+	int i = 0;
+	for (x <- v) {
+		println(x);
+		i = i + 1;
+	}
+	println(i);
 }
 
