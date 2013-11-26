@@ -51,8 +51,8 @@ public void recursiveMethodsLoadFullValue() {
 	findRecursiveMethods(m3@methodInvocation);	
 }
 
-public void recursiveMethodsJavaQuery() {
-	set[value] s = executeJavaQuery(1, "smallsql");
+public void recursiveMethodsJavaQuery(str id) {
+	set[value] s = executeJavaQuery(1, id);
 	int i = 0;
 	for (x <- s) {
 		println(x);
