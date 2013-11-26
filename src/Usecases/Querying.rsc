@@ -10,7 +10,7 @@ private str ASTsId = "lapd ASTs";
 private loc prjLoc = |project://lapd|;
 
 public void storeTestPrj() {
-	write("javatest", createM3FromEclipseProject(|project://javatest|));
+	write("javatest2", createM3FromEclipseProject(|project://javatest|));
 }
 
 public void storeAnM3Model() {
@@ -32,7 +32,7 @@ public void storeASTs() {
 }
 
 public M3 queryFullM3Model() {
-	M3 model = executeQuery("start n=node:nodes(id = \'" + m3Id + "\') return n", #M3);
+	M3 model = executeQuery("start n=node:nodes(id = \'" + m3Id + "\') return n", #M3, false);
 	return model;
 }
 
@@ -52,30 +52,5 @@ public void queryASTs() {
 		println(n);
 }
 
-public void queryRecursiveMethods() {
-	value v = executeQuery("start n=node:nodes(id = \'javatest\') match n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0..]-\>()-[:HEAD]-\>from-[:NEXT_ELEMENT]-\>to where anno.annotation = \'methodInvocation\' and from.loc = to.loc return from");
-	println(v);
-	//for (x <- v) {
-		//println(x);
-	//}
-}
 
-public void queryRecursiveMethodz() {
-	value v = executeQuery("start n=node:nodes(id = \'javatest\') match p=n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0]-\>x where anno.annotation = \'methodInvocation\' return x");
-	println(v);
-	//for (x <- v) {
-		//println(x);
-	//}
-}
-
-public void queryMethodInvocations() {
-	rel[loc from, loc to] v = executeQuery("start n=node:nodes(id = \'javatest\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'methodInvocation\' return anno", #rel[loc from, loc to]);
-	//println(v);
-	int i = 0;
-	for (x <- v) {
-		println(x);
-		i = i + 1;
-	}
-	println(i);
-}
 
