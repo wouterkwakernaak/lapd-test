@@ -3,15 +3,16 @@ module Usecases::Querying
 
 import IO;
 import LAPD;
+import List;
 import lang::java::jdt::m3::Core;
 import lang::java::m3::AST;
 
 private str m3Id = "lapd M3 modelyo";
-private str ASTsId = "lapd ASTs";
-private loc prjLoc = |project://lapd|;
+private str ASTsId = "smallsql";
+private loc prjLoc = |project://smallsql_0.21_src|;
 
 public void storeTestPrj() {
-	write("javatest2", createM3FromEclipseProject(|project://javatest|));
+	write("javatest3", createM3FromEclipseProject(|project://javatest|));
 }
 
 public void storeAnM3Model() {
@@ -20,16 +21,16 @@ public void storeAnM3Model() {
 
 // appears to be bugged
 public void storeASTs() {
-	M3 model = queryFullM3Model();
-	for (method <- methods(model)) {
-		println(method);
-		println(getMethodAST(method, model=model));
-	}
-	//set[Declaration] asts = createAstsFromDirectory(prjLoc, true);
+	//M3 model = queryFullM3Model();
+	//for (method <- methods(model)) {
+	//	println(method);
+	//	println(getMethodAST(method, model=model));
+	//}
+	set[Declaration] asts = createAstsFromDirectory(prjLoc, true);
 	//println(asts);
 	//for (n <- asts)
-	//	println(n);
-	//write(ASTsId, asts);
+		//println(n);
+	write(ASTsId, asts);
 }
 
 public M3 queryFullM3Model() {
@@ -48,9 +49,32 @@ public void queryM3ForMethods() {
 }
 
 public void queryASTs() {
-	set[Declaration] asts = executeQuery("start n=node:nodes(id = \'" + ASTsId + "\') return n", #set[Declaration]);
+	list[Declaration] asts = executeQuery("start n=node:nodes(id = \'" + ASTsId + "\') match n-[*0..]-\>x where has(x.node) and x.node = \'field\' return x", #list[Declaration], true);
 	for (n <- asts)
 		println(n);
+}
+
+public void queryASTz() {
+	list[Declaration] asts = executeQuery("start n=node:nodes(id = \'smallsql\') match n-[:HEAD]-\>x return x", #list[Declaration], true);
+	for (n <- asts)
+		println(n);
+}
+
+public void querySwitch() {
+	list[Statement] stmt = executeQuery("start n=node:nodes(node = \'switch\') return n", #list[Statement], true);
+	int i = 0;
+	for (n <- stmt)
+		i += 1;
+	println(i);
+}
+
+public void querySwitchNoDefault() {
+	list[Statement] allSwitches = executeQuery("start n=node:nodes(node = \'switch\') return n", #list[Statement], true);
+	list[Statement] switchesWithDefault = executeQuery("start n=node:nodes(node = \'switch\') match n-[:HEAD]-\>()-[:NEXT_ELEMENT]-\>()-[:HEAD]-\>()-[:NEXT_ELEMENT*]-\>d where d.node = \'defaultCase\' return distinct n", #list[Statement], true);
+	list[Statement] switchesNoDefault = allSwitches - switchesWithDefault;
+	println(size(allSwitches));
+	println(size(switchesWithDefault));
+	println(size(switchesNoDefault));		
 }
 
 public void queryRecursiveMethodsExpensive() {
@@ -69,6 +93,13 @@ public void queryMethodInvocationsAsList() {
 
 public void queryMethodInvocations() {
 	rel[loc from, loc to] v = executeQuery("start n=node:nodes(id = \'javatest2\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'methodInvocation\' return anno", #rel[loc from, loc to], false);
+	for (x <- v) {
+		println(x);
+	}
+}
+
+public void queryModifiers() {
+	rel[loc definition, Modifier modifier] v = executeQuery("start n=node:nodes(id = \'javatest3\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'modifiers\' return anno", #rel[loc definition, Modifier modifier], false);
 	for (x <- v) {
 		println(x);
 	}
