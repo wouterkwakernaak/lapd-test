@@ -1,4 +1,5 @@
 module Usecases::Querying
+// Module containing experimental querying code
 
 import IO;
 import LAPD;
@@ -52,5 +53,24 @@ public void queryASTs() {
 		println(n);
 }
 
+public void queryRecursiveMethodsExpensive() {
+	list[loc] v = executeQuery("start n=node:nodes(id = \'javatest2\') match n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0..]-\>()-[:HEAD]-\>from-[:NEXT_ELEMENT]-\>to where anno.annotation = \'methodInvocation\' and from.loc = to.loc return from", #list[loc], true);
+	for (x <- v) {
+		println(x);
+	}
+}
 
+public void queryMethodInvocationsAsList() {
+	list[tuple[loc from, loc to]] v = executeQuery("start n=node:nodes(id = \'smallsql\') match p=n-[:ANNOTATION]-\>anno-[:HEAD]-\>()-[:NEXT_ELEMENT*0..5]-\>x where anno.annotation = \'methodInvocation\' return x", #list[tuple[loc from, loc to]], true);
+	for (x <- v) {
+		println(x);
+	}
+}
+
+public void queryMethodInvocations() {
+	rel[loc from, loc to] v = executeQuery("start n=node:nodes(id = \'javatest2\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'methodInvocation\' return anno", #rel[loc from, loc to], false);
+	for (x <- v) {
+		println(x);
+	}
+}
 

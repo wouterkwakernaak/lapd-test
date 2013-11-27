@@ -3,12 +3,17 @@ module Benchmarks::Util
 import lang::java::jdt::m3::Core;
 import LAPD;
 import DateTime;
+import ValueIO;
 
 public loc smallAnalysisProjectLoc = |project://smallsql_0.21_src|;
 
 public loc largeAnalysisProjectLoc = |project://hsqldb-2.3.1|;
 
 public loc smallJavaFile = |project://smallsql_0.21_src/src/smallsql/database/Column.java|;
+
+public str smallJavaPrjId = "smallsql";
+
+public str largeJavaPrjId = "hsqldb";
 
 public loc grabTextFileLoc() {
 	return getDbDirectoryPath() + "textValueIO.io";
@@ -27,9 +32,17 @@ public str generateId() {
 }
 
 public void insertLargeProjectIntoLapd() {
-	write("hsqldb", createM3FromEclipseProject(largeAnalysisProjectLoc));
+	write(largeJavaPrjId, createM3FromEclipseProject(largeAnalysisProjectLoc));
 }
 
 public void insertSmallProjectIntoLapd() {
-	write("smallsql", createM3FromEclipseProject(smallAnalysisProjectLoc));
+	write(smallJavaPrjId, createM3FromEclipseProject(smallAnalysisProjectLoc));
+}
+
+public void insertSmallProjectIntoBinaryFile() {
+	writeBinaryValueFile(grabBinaryFileLoc(), createM3FromEclipseProject(smallAnalysisProjectLoc));
+}
+
+public void insertLargeProjectIntoBinaryFile() {
+	writeBinaryValueFile(grabBinaryFileLoc(), createM3FromEclipseProject(largeAnalysisProjectLoc));
 }
