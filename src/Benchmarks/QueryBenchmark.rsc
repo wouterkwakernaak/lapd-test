@@ -8,8 +8,8 @@ import Benchmarks::Util;
 import lang::csv::IO;
 
 // needs an inserted java M3 model
-public void runRecursiveMethodsQuery() {
-	int runs = 1;
+public void benchmarkRecursiveMethodsQuery() {
+	int runs = 10;
 	str id = smallJavaPrjId;
 	loc file = grabBinaryFileLoc();
 	rel[str query, int time] results = {<"java", measureQueryLapd(id, runs, recursiveMethodsJavaQuery)>, 
@@ -21,7 +21,7 @@ public void runRecursiveMethodsQuery() {
 }
 
 // needs an inserted set of java ASTs
-public void runSwitchQuery() {
+public void benchmarkSwitchQuery() {
 	int runs = 2;
 	str id = largeJavaPrjId;
 	loc file = grabBinaryFileLoc();
@@ -33,7 +33,7 @@ public void runSwitchQuery() {
 	writeCSV(results, resultsFile);
 }
 
-public int measureQueryLapd(&T id, int runs, set[value](&T id) queryFunc)
+private int measureQueryLapd(&T id, int runs, set[value](&T id) queryFunc)
 {	
 	int total = 0;	
 	for (n <- [0..runs]) {
@@ -46,7 +46,7 @@ public int measureQueryLapd(&T id, int runs, set[value](&T id) queryFunc)
 	return avg;
 }
 
-public int measureQueryLapd(int runs, set[value]() queryFunc)
+private int measureQueryLapd(int runs, set[value]() queryFunc)
 {	
 	int total = 0;	
 	for (n <- [0..runs]) {
