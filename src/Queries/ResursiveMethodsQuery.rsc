@@ -1,6 +1,7 @@
 module Queries::ResursiveMethodsQuery
 
 import ValueIO;
+import IO;
 import LAPD;
 import lang::java::jdt::m3::Core;
 
@@ -24,11 +25,11 @@ public set[loc] recursiveMethodsLoadFullValue(loc file) {
 }
 
 private set[loc] findRecursiveMethods(rel[loc from, loc to] invocations) {
-	methods = for(tuple[loc from, loc to] invocation <- invocations) {
+	methodList = for(tuple[loc from, loc to] invocation <- invocations) {
 		str methodFrom = invocation.from.path;
-		str methodTo = invocation.to.path;	
+		str methodTo = invocation.to.path;
 		if (/<methodTo>/ := methodFrom)
 			append invocation.to;
 	}
-	return {m | m <- methods};
+	return {m | m <- methodList};
 }

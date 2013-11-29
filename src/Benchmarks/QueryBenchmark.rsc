@@ -22,8 +22,8 @@ public void runRecursiveMethodsQuery() {
 
 // needs an inserted set of java ASTs
 public void runSwitchQuery() {
-	int runs = 5;
-	str id = smallJavaPrjId;
+	int runs = 2;
+	str id = largeJavaPrjId;
 	loc file = grabBinaryFileLoc();
 	rel[str query, int time] results = {<"java", measureQueryLapd(runs, switchJavaQuery)>, 
 	<"hybrid", measureQueryLapd(runs, switchHybrid)>, 

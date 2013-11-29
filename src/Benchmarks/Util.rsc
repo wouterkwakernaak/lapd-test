@@ -49,11 +49,11 @@ public void insertLargeProjectIntoBinaryFile() {
 }
 
 public void insertASTsIntoLAPD() {
-	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
-	write(smallJavaPrjId, asts);
+	set[Declaration] asts = createAstsFromDirectory(largeAnalysisProjectLoc, true);
+	write(largeJavaPrjId, asts);
 }
 
 public void insertASTsIntoBinary() {
-	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
+	set[Declaration] asts = createAstsFromDirectory(largeAnalysisProjectLoc, true);
 	writeBinaryValueFile(grabBinaryFileLoc(), asts);
 }
