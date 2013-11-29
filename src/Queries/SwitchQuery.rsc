@@ -4,7 +4,7 @@ import ValueIO;
 import LAPD;
 import lang::java::m3::AST;
 
-public set[Statement] querySwitchHybrid() {
+public set[Statement] switchHybrid() {
 	list[Statement] allSwitches = executeQuery("start n=node:nodes(node = \'switch\') return n", #list[Statement], true);
 	list[Statement] switchesWithDefault = executeQuery("start n=node:nodes(node = \'switch\') match n-[:HEAD]-\>()-[:NEXT_ELEMENT]-\>()-[:HEAD]-\>()-[:NEXT_ELEMENT*]-\>d where d.node = \'defaultCase\' return n", #list[Statement], true);
 	list[Statement] switchesNoDefault = allSwitches - switchesWithDefault;

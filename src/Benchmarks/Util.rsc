@@ -1,6 +1,7 @@
 module Benchmarks::Util
 
 import lang::java::jdt::m3::Core;
+import lang::java::m3::AST;
 import LAPD;
 import DateTime;
 import ValueIO;
@@ -45,4 +46,14 @@ public void insertSmallProjectIntoBinaryFile() {
 
 public void insertLargeProjectIntoBinaryFile() {
 	writeBinaryValueFile(grabBinaryFileLoc(), createM3FromEclipseProject(largeAnalysisProjectLoc));
+}
+
+public void insertASTsIntoLAPD() {
+	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
+	write(smallJavaPrjId, asts);
+}
+
+public void insertASTsIntoBinary() {
+	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
+	writeBinaryValueFile(grabBinaryFileLoc(), asts);
 }

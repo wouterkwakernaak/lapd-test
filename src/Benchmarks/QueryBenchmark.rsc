@@ -22,11 +22,11 @@ public void runRecursiveMethodsQuery() {
 
 // needs an inserted set of java ASTs
 public void runSwitchQuery() {
-	int runs = 1;
+	int runs = 5;
 	str id = smallJavaPrjId;
 	loc file = grabBinaryFileLoc();
-	rel[str query, int time] results = {<"java", measureQueryLapd(id, runs, switchJavaQuery)>, 
-	<"hybrid", measureQueryLapd(id, runs, switchHybrid)>, 
+	rel[str query, int time] results = {<"java", measureQueryLapd(runs, switchJavaQuery)>, 
+	<"hybrid", measureQueryLapd(runs, switchHybrid)>, 
 	<"full lapd", measureQueryLapd(id, runs, switchLoadFullValue)>,
 	<"full binary", measureQueryLapd(file, runs, switchLoadFullValue)>};
 	loc resultsFile = grabBenchmarkResultsLoc("switch-query");
@@ -39,6 +39,19 @@ public int measureQueryLapd(&T id, int runs, set[value](&T id) queryFunc)
 	for (n <- [0..runs]) {
 		begin = realTime();
 		set[value] result = queryFunc(id);	
+		used = realTime() - begin;
+		total += used;
+	}
+	avg = total / runs;
+	return avg;
+}
+
+public int measureQueryLapd(int runs, set[value]() queryFunc)
+{	
+	int total = 0;	
+	for (n <- [0..runs]) {
+		begin = realTime();
+		set[value] result = queryFunc();	
 		used = realTime() - begin;
 		total += used;
 	}
