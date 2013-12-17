@@ -23,8 +23,13 @@ public void insertCallGraph() {
 }
 
 public set[str] reachabilityRascal() {
-	rel[str from, str to] callGraph = createCallGraph();
-	// hier de rascal analyse
+	rel[str from, str to] callGraph = createCallGraph()+;
+	set[str] reachableMethods = {call.to | tuple[str from, str to] call <- callGraph, call.from == "/smallsql/database/SSStatement/execute(java.lang.String)"};
+	int count = 0;
+	for (m <- reachableMethods)
+		count += 1;
+	println("# of methods reachable: <count>");
+	return reachableMethods;
 }
 
 public set[str] reachabilityCypher(str id) {
