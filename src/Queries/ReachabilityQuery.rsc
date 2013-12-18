@@ -6,7 +6,9 @@ import Benchmarks::Util;
 import IO;
 import String;
 
-public rel[str from, str to] createCallGraph() {
+private str theMethod = "/smallsql/database/SSStatement/execute(java.lang.String)";
+
+private rel[str from, str to] createCallGraph() {
 	M3 m3 = createM3FromEclipseProject(smallAnalysisProjectLoc);
 	callGraphList = for(tuple[loc from, loc to] invocation <- m3@methodInvocation) {
 		str pathFrom = invocation.from.path;
@@ -24,7 +26,8 @@ public void insertCallGraph() {
 
 public set[str] reachabilityRascal() {
 	rel[str from, str to] callGraph = createCallGraph()+;
-	set[str] reachableMethods = {call.to | tuple[str from, str to] call <- callGraph, call.from == "/smallsql/database/SSStatement/execute(java.lang.String)"};
+	set[str] reachableMethods = {call.to | tuple[str from, str to] call <- callGraph, call.from == theMethod};
+	
 	int count = 0;
 	for (m <- reachableMethods)
 		count += 1;
@@ -32,7 +35,18 @@ public set[str] reachabilityRascal() {
 	return reachableMethods;
 }
 
-public set[str] reachabilityCypher(str id) {
-	//rel[loc from, loc to] invocations = executeQuery("start n=node:nodes(id = \'" + id + "\') match n-[:ANNOTATION]-\>anno where anno.annotation = \'methodInvocation\' return anno", #rel[loc from, loc to], false);
-	//return findRecursiveMethods(invocations);
+public void compare() {
+	a = reachabilityRascal();
+	b = reachabilityCypher();
+	println(b - a);
+}
+
+public set[str] reachabilityCypher() {
+	set[str] reachableMethods = executeQuery("start x=node:nodes(str = \'" + theMethod + "\'), y=node(*) match p = shortestPath(x-[:NEXT_ELEMENT*]-\>y) where last(p) \<\> x return last(p)", #set[str], true);
+	
+	int count = 0;
+	for (m <- reachableMethods)
+		count += 1;
+	println("# of methods reachable: <count>");
+	return reachableMethods;
 }
