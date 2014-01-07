@@ -42,7 +42,7 @@ public void compare() {
 }
 
 public set[str] reachabilityCypher() {
-	set[str] reachableMethods = executeQuery("start x=node:nodes(str = \'" + theMethod + "\'), y=node(*) match p = shortestPath(x-[:NEXT_ELEMENT*]-\>y) where last(p) \<\> x return last(p)", #set[str], true);
+	set[str] reachableMethods = executeQuery("start x=node:nodes(str = \'" + theMethod + "\'), y=node(*) match p = shortestPath(x-[:TO*]-\>y) where last(p) \<\> x return last(p)", #set[str], true);
 	
 	int count = 0;
 	for (m <- reachableMethods)
