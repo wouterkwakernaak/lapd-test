@@ -5,12 +5,14 @@ import lang::java::m3::AST;
 import LAPD;
 import DateTime;
 import ValueIO;
+import IO;
 
 public loc smallAnalysisProjectLoc = |project://smallsql_0.21_src|;
 
 public loc largeAnalysisProjectLoc = |project://hsqldb-2.3.1|;
 
 public loc smallJavaFile = |project://smallsql_0.21_src/src/smallsql/database/Column.java|;
+public loc javaTestFile = |project://javatest/src/javatest/SomeClass.java|;
 
 public str smallJavaPrjId = "smallsql";
 
@@ -49,11 +51,11 @@ public void insertLargeProjectIntoBinaryFile() {
 }
 
 public void insertASTsIntoLAPD() {
-	set[Declaration] asts = createAstsFromDirectory(largeAnalysisProjectLoc, true);
-	write(largeJavaPrjId, asts);
+	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
+	write(smallJavaPrjId, asts);
 }
 
 public void insertASTsIntoBinary() {
-	set[Declaration] asts = createAstsFromDirectory(largeAnalysisProjectLoc, true);
+	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
 	writeBinaryValueFile(grabBinaryFileLoc(), asts);
 }
