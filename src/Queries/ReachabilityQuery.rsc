@@ -9,7 +9,7 @@ import Queries::Util;
 
 private loc theMethod = |java+method:///smallsql/database/SSStatement/execute(java.lang.String)|;
 
-public set[loc] reachabilityJavaQuery() {
+public set[loc] reachabilityJava() {
 	return executeJavaQuery(3, "|" + theMethod.uri + "|", #set[loc]);
 }
 
@@ -27,7 +27,7 @@ public set[loc] reachabilityRascal() {
 public void compare() {
 	a = reachabilityRascal();
 	b = reachabilityCypher();
-	c = reachabilityJavaQuery();
+	c = reachabilityJava();
 	println(b - a);
 	println(a - b);
 	println(c - a);

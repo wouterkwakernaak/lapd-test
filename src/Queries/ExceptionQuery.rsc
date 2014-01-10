@@ -6,23 +6,19 @@ import lang::java::m3::AST;
 import Benchmarks::Util;
 import IO;
 
-public void rascalException() {
-	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
-	findCatches(asts);
+public void compareException() {
+	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
+	set[Statement] a = exceptionCypher();
+	set[Statement] b = exceptionRascal(asts);
+	set[Statement] c = exceptionJava();
+	println(a - b);
+	println(b - a);
+	println(a - c);
+	println(c - a);
 }
 
-public void compare() {
-	set[Statement] c = exceptionCypher();
-	set[Statement] r = findExceptionCatches(createAstsFromDirectory(smallAnalysisProjectLoc, true));
-	println(c == r);
-	int countc = 0;
-	int countr = 0;
-	for (x <- c)
-		countc += 1;
-	for (y <- r)
-		countr += 1;
-	println(countc);
-	println(countr);
+public set[Statement] exceptionJava() {
+	return executeJavaQuery(4, "", #set[Statement]);
 }
 
 public set[Statement] exceptionCypher() {
@@ -30,15 +26,8 @@ public set[Statement] exceptionCypher() {
 	return stmts;
 }
 
-private set[Statement] findExceptionCatches(set[Declaration] asts) {
+private set[Statement] exceptionRascal(set[Declaration] asts) {
 	stmts = for(/\catch(\parameter(simpleType(simpleName("Exception")), x, y), z) := asts)
 			append \catch(\parameter(simpleType(simpleName("Exception")), x, y), z);
 	return {s | s <- stmts};
 }
-
-//private set[Statement] findCatches() {
-//	set[Declaration] asts = createAstsFromDirectory(smallAnalysisProjectLoc, true);
-//	stmts = for(/\catch(x, y) := asts)
-//		append \catch(x, y);
-//	return {s | s <- stmts};
-//}

@@ -6,7 +6,7 @@ import LAPD;
 import lang::java::jdt::m3::Core;
 import Queries::Util;
 
-public set[loc] recursiveMethodsJavaQuery() {
+public set[loc] recursiveMethodsJava() {
 	return executeJavaQuery(1, "", #set[loc]);
 }
 //
@@ -23,7 +23,7 @@ public set[loc] recursiveMethodsJavaQuery() {
 public void compareRecursive() {
 	a = recursiveMethodsRascal();
 	b = recursiveMethodsCypher();
-	c = recursiveMethodsJavaQuery();
+	c = recursiveMethodsJava();
 	println(a - b);
 	println(b - a);
 	println(a - c);

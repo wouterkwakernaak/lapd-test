@@ -5,7 +5,7 @@ import LAPD;
 import lang::java::m3::AST;
 import IO;
 
-public set[Statement] switchJavaQuery() {
+public set[Statement] switchJava() {
 	return executeJavaQuery(2, "", #set[Statement]);
 }
 //
@@ -41,7 +41,7 @@ private set[Statement] switchRascal(set[Declaration] asts) {
 public void compareSwitches() {
 	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
 	a = switchCypher();
-	b = switchJavaQuery();
+	b = switchJava();
 	c = switchRascal(asts);
 	println(a - b);
 	println(b - a);
