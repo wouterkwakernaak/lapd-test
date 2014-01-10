@@ -6,9 +6,9 @@ import LAPD;
 import lang::java::jdt::m3::Core;
 import Queries::Util;
 
-//public set[loc] recursiveMethodsJavaQuery(str id) {
-//	return executeJavaQuery(1, id, #set[loc]);
-//}
+public set[loc] recursiveMethodsJavaQuery() {
+	return executeJavaQuery(1, "", #set[loc]);
+}
 //
 //public set[loc] recursiveMethodsLoadFullValue(str id) {
 //	M3 m3 = read(id, #M3);
@@ -23,8 +23,11 @@ import Queries::Util;
 public void compareRecursive() {
 	a = recursiveMethodsRascal();
 	b = recursiveMethodsCypher();
+	c = recursiveMethodsJavaQuery();
 	println(a - b);
 	println(b - a);
+	println(a - c);
+	println(c - a);
 }
 public set[loc] recursiveMethodsRascal() {
 	rel[loc from, loc to] invocations = createCallGraph();
