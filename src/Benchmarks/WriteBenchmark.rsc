@@ -1,4 +1,4 @@
-module Benchmarks::SequentialWrite
+module Benchmarks::WriteBenchmark
 
 import Benchmarks::IntegerBenchmark;
 import Benchmarks::M3Benchmark;
@@ -9,33 +9,33 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 import IO;
 
-public void benchSequentialIntWrite() {
+public void benchIntWrite() {
 	int runs = 50;
 	int intValue = 7;	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
-	loc file = grabBenchmarkResultsLoc("integer-sequential-write");
+	loc file = grabBenchmarkResultsLoc("integer-write");
 	writeCSV(results, file);
 }
 
-public void benchSequentialASTWrite() {
+public void benchASTWrite() {
 	int runs = 50;
 	Declaration ast = createSmallAST();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
 	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
 	<"binary file", binaryWrite(runs, ast, measureBinaryASTWrite)>};
-	loc file = grabBenchmarkResultsLoc("AST-sequential-write");
+	loc file = grabBenchmarkResultsLoc("AST-write");
 	writeCSV(results, file);
 }
 
-public void benchSequentialSmallM3Write() {
+public void benchSmallM3Write() {
 	int runs = 5;
 	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 
 	<"binary file", binaryWrite(runs, m3, measureBinaryM3Write)>};
-	loc file = grabBenchmarkResultsLoc("M3-sequential-write");
+	loc file = grabBenchmarkResultsLoc("M3-write");
 	writeCSV(results, file);
 }
 

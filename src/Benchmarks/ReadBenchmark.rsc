@@ -1,4 +1,4 @@
-module Benchmarks::SequentialRead
+module Benchmarks::ReadBenchmark
 
 import Benchmarks::IntegerBenchmark;
 import Benchmarks::M3Benchmark;
@@ -9,33 +9,33 @@ import lang::java::m3::Core;
 import lang::java::m3::AST;
 import IO;
 
-public void benchSequentialIntRead() {
+public void benchIntRead() {
 	int runs = 50;
 	int intValue = 5;	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, intValue, measureLapdIntWrite, measureLapdIntRead)>, 
 	<"text file", textRead(runs, intValue, measureTextIntWrite, measureTextIntRead)>, 
 	<"binary file", binaryRead(runs, intValue, measureBinaryIntWrite, measureBinaryIntRead)>};
-	loc file = grabBenchmarkResultsLoc("integer-sequential-read");
+	loc file = grabBenchmarkResultsLoc("integer-read");
 	writeCSV(results, file);
 }
 
-public void benchSequentialASTRead() {
+public void benchASTRead() {
 	int runs = 50;
 	Declaration ast = createSmallAST();	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, ast, measureLapdASTWrite, measureLapdASTRead)>, 
 	<"text file", 0>, 
 	<"binary file", binaryRead(runs, ast, measureBinaryASTWrite, measureBinaryASTRead)>};
-	loc file = grabBenchmarkResultsLoc("AST-sequential-read");
+	loc file = grabBenchmarkResultsLoc("AST-read");
 	writeCSV(results, file);
 }
 
-public void benchSequentialSmallM3Read() {
+public void benchSmallM3Read() {
 	int runs = 5;
 	M3 m3 = createSmallM3();	
 	rel[str store, int time] results = {<"lapd", lapdRead(runs, m3, measureLapdM3Write, measureLapdM3Read)>, 
 	<"text file", textRead(runs, m3, measureTextM3Write, measureTextM3Read)>, 
 	<"binary file", binaryRead(runs, m3, measureBinaryM3Write, measureBinaryM3Read)>};
-	loc file = grabBenchmarkResultsLoc("M3-sequential-read");
+	loc file = grabBenchmarkResultsLoc("M3-read");
 	writeCSV(results, file);
 }
 
