@@ -8,14 +8,10 @@ import ValueIO;
 import IO;
 
 public loc smallAnalysisProjectLoc = |project://smallsql_0.21_src|;
-
 public loc largeAnalysisProjectLoc = |project://hsqldb-2.3.1|;
-
 public loc smallJavaFile = |project://smallsql_0.21_src/src/smallsql/database/Column.java|;
 public loc javaTestFile = |project://javatest/src/javatest/SomeClass.java|;
-
 public str smallJavaPrjId = "smallsql";
-
 public str largeJavaPrjId = "hsqldb";
 
 public loc grabTextFileLoc() {
