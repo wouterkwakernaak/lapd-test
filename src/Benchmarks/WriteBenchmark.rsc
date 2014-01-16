@@ -15,7 +15,7 @@ public void benchIntWrite() {
 	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
-	loc file = grabBenchmarkResultsLoc("integer-write-trans");
+	loc file = grabBenchmarkResultsLoc("integer-write-batch");
 	writeCSV(results, file);
 }
 
@@ -25,7 +25,7 @@ public void benchASTWrite() {
 	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
 	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
 	<"binary file", binaryWrite(runs, ast, measureBinaryASTWrite)>};
-	loc file = grabBenchmarkResultsLoc("AST-write-trans");
+	loc file = grabBenchmarkResultsLoc("AST-write-batch");
 	writeCSV(results, file);
 }
 
@@ -35,7 +35,7 @@ public void benchM3Write() {
 	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 
 	<"binary file", binaryWrite(runs, m3, measureBinaryM3Write)>};
-	loc file = grabBenchmarkResultsLoc("hsqldb-M3-write-trans");
+	loc file = grabBenchmarkResultsLoc("hsqldb-M3-write-batch");
 	writeCSV(results, file);
 }
 
