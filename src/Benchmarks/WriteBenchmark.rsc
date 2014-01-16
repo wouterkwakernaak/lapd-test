@@ -10,64 +10,75 @@ import lang::java::m3::AST;
 import IO;
 
 public void benchIntWrite() {
-	int runs = 50;
+	int runs = 5;
 	int intValue = 7;	
-	rel[str store, int time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
+	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, intValue, measureLapdIntWrite)>, 
 	<"text file", textWrite(runs, intValue, measureTextIntWrite)>, 
 	<"binary file", binaryWrite(runs, intValue, measureBinaryIntWrite)>};
-	loc file = grabBenchmarkResultsLoc("integer-write");
+	loc file = grabBenchmarkResultsLoc("integer-write-trans");
 	writeCSV(results, file);
 }
 
 public void benchASTWrite() {
-	int runs = 50;
+	int runs = 5;
 	Declaration ast = createSmallAST();	
-	rel[str store, int time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
+	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, ast, measureLapdASTWrite)>, 
 	<"text file", textWrite(runs, ast, measureTextASTWrite)>, 
 	<"binary file", binaryWrite(runs, ast, measureBinaryASTWrite)>};
-	loc file = grabBenchmarkResultsLoc("AST-write");
+	loc file = grabBenchmarkResultsLoc("AST-write-trans");
 	writeCSV(results, file);
 }
 
-public void benchSmallM3Write() {
+public void benchM3Write() {
 	int runs = 5;
 	M3 m3 = createSmallM3();	
-	rel[str store, int time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
+	rel[str store, list[int] time] results = {<"lapd", lapdWrite(runs, m3, measureLapdM3Write)>, 
 	<"text file", textWrite(runs, m3, measureTextM3Write)>, 
 	<"binary file", binaryWrite(runs, m3, measureBinaryM3Write)>};
-	loc file = grabBenchmarkResultsLoc("M3-write");
+	loc file = grabBenchmarkResultsLoc("hsqldb-M3-write-trans");
 	writeCSV(results, file);
 }
 
-private int lapdWrite(int runs, &T v, int(str, &T) measure) {	
+private list[int] lapdWrite(int runs, &T v, int(str, &T) measure) {	
 	str id = generateId();
-	measureLapdIntWrite(id, 123); // make sure the DB engine is running
-	int total = 0;	
+	int total = 0;
+	list[int] result = [];
 	for (n <- [0..runs]) {
 		id = generateId();
-		total += measure(id, v);
+		int time = measure(id, v);
+		result += time;
+		total += time;
 	}
 	avg = total / runs;
-	return avg;
+	result += avg;
+	return result;
 }
 
-private int textWrite(int runs, &T v, int(loc, &T) measure) {
+private list[int] textWrite(int runs, &T v, int(loc, &T) measure) {
 	loc file = grabTextFileLoc();
-	int total = 0;	
+	int total = 0;
+	list[int] result = [];
 	for (n <- [0..runs]) {
-		total += measure(file, v);
+		int time = measure(file, v);
+		result += time;
+		total += time;
 	}
 	avg = total / runs;
-	return avg;
+	result += avg;
+	return result;
 }
 
-private int binaryWrite(int runs, &T v, int(loc, &T) measure) {
+private list[int] binaryWrite(int runs, &T v, int(loc, &T) measure) {
 	loc file = grabBinaryFileLoc();
-	int total = 0;	
+	int total = 0;
+	list[int] result = [];
 	for (n <- [0..runs]) {
-		total += measure(file, v);
+		int time = measure(file, v);
+		result += time;
+		total += time;
 	}
 	avg = total / runs;
-	return avg;
+	result += avg;
+	return result;
 }
 
