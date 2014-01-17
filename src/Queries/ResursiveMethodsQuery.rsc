@@ -9,28 +9,8 @@ import Queries::Util;
 public set[loc] recursiveMethodsJava() {
 	return executeJavaQuery(1, "", #set[loc]);
 }
-//
-//public set[loc] recursiveMethodsLoadFullValue(str id) {
-//	M3 m3 = read(id, #M3);
-//	return findRecursiveMethods(m3@methodInvocation);	
-//}
-//
-//public set[loc] recursiveMethodsLoadFullValue(loc file) {
-//	M3 m3 = readBinaryValueFile(#M3, file);
-//	return findRecursiveMethods(m3@methodInvocation);	
-//}
 
-public void compareRecursive() {
-	a = recursiveMethodsRascal();
-	b = recursiveMethodsCypher();
-	c = recursiveMethodsJava();
-	println(a - b);
-	println(b - a);
-	println(a - c);
-	println(c - a);
-}
-public set[loc] recursiveMethodsRascal() {
-	rel[loc from, loc to] invocations = createCallGraph();
+public set[loc] recursiveMethodsRascal(rel[loc from, loc to] invocations) {
 	return {invocation.from | tuple[loc from, loc to] invocation <- invocations, invocation.from == invocation.to};
 }
 

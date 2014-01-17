@@ -7,7 +7,7 @@ import String;
 import IO;
 
 public rel[loc from, loc to] createCallGraph() {
-	M3 m3 = createM3FromEclipseProject(smallAnalysisProjectLoc);
+	M3 m3 = createM3FromEclipseProject(largeAnalysisProjectLoc);
 	callGraphList = for(tuple[loc from, loc to] invocation <- m3@methodInvocation) {
 		str pathFrom = invocation.from.path;
 		str pathTo = invocation.to.path;
@@ -20,4 +20,12 @@ public rel[loc from, loc to] createCallGraph() {
 
 public void insertCallGraph() {
 	write("callGraph", createCallGraph());
+}
+
+public void insertCallGraph(str id) {
+	write(id, createCallGraph());
+}
+
+public void insertCallGraph(str id, rel[loc from, loc to] callGraph) {
+	write(id, callGraph);
 }
