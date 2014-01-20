@@ -1,6 +1,7 @@
 module Benchmarks::QueryBenchmark
 
 import Queries::ResursiveMethodsQuery;
+import Queries::ReachabilityQuery;
 import Queries::Util;
 import Queries::SwitchQuery;
 import util::Benchmark;
@@ -18,6 +19,19 @@ public void benchmarkRecursiveMethodsQuery() {
 	writeCSV(results, resultsFile);
 }
 
+public void benchmarkReachabilityQuery() {
+	loc smallSqlMethod = |java+method:///smallsql/database/SSStatement/execute(java.lang.String)|;
+	loc hsqldbMethod = |java+method:///org/hsqldb/StatementCommand/execute(org.hsqldb.Session)|;
+	int runs = 5;
+	rel[loc from, loc to] callGraph = createCallGraph();
+	insertCallGraph("callGraph", callGraph);	
+	rel[str query, list[int] time] results = {<"java", measureQueryLapd(hsqldbMethod, runs, reachabilityJava)>, 
+	<"cypher", measureQueryLapd(hsqldbMethod, runs, reachabilityCypher)>, 
+	<"rascal", measureQueryLapd(hsqldbMethod, callGraph, runs, reachabilityRascal)>};
+	loc resultsFile = grabBenchmarkResultsLoc("hsqldb-reachability-query");
+	writeCSV(results, resultsFile);
+}
+
 // needs an inserted set of java ASTs
 public void benchmarkSwitchQuery() {
 	int runs = 5;
@@ -29,6 +43,22 @@ public void benchmarkSwitchQuery() {
 	<"full binary", measureQueryLapd(file, runs, switchLoadFullValue)>};
 	loc resultsFile = grabBenchmarkResultsLoc("switch-query");
 	writeCSV(results, resultsFile);
+}
+
+private list[int] measureQueryLapd(&T1 param1, &T2 param2, int runs, set[value](&T1 param1, &T2 param2) queryFunc)
+{	
+	int total = 0;
+	list[int] result = [];
+	for (n <- [0..runs]) {
+		begin = realTime();
+		queryFunc(param1, param2);	
+		used = realTime() - begin;
+		result += used;
+		total += used;
+	}
+	avg = total / runs;
+	result += avg;
+	return result;
 }
 
 private list[int] measureQueryLapd(&T param, int runs, set[value](&T param) queryFunc)

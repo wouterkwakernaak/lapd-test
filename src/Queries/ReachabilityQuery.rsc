@@ -7,39 +7,17 @@ import IO;
 import String;
 import Queries::Util;
 
-private loc theMethod = |java+method:///smallsql/database/SSStatement/execute(java.lang.String)|;
-
-public set[loc] reachabilityJava() {
-	return executeJavaQuery(3, "|" + theMethod.uri + "|", #set[loc]);
+public set[loc] reachabilityJava(loc method) {
+	return executeJavaQuery(3, "|" + method.uri + "|", #set[loc]);
 }
 
-public set[loc] reachabilityRascal() {
-	rel[loc from, loc to] callGraph = createCallGraph()+;
-	set[loc] reachableMethods = {call.to | tuple[loc from, loc to] call <- callGraph, call.from == theMethod};
-	
-	int count = 0;
-	for (m <- reachableMethods)
-		count += 1;
-	println("# of methods reachable: <count>");
+public set[loc] reachabilityRascal(loc method, rel[loc from, loc to] callGraph) {
+	rel[loc from, loc to] tc = callGraph+;
+	set[loc] reachableMethods = {call.to | tuple[loc from, loc to] call <- tc, call.from == method};
 	return reachableMethods;
 }
 
-public void compare() {
-	a = reachabilityRascal();
-	b = reachabilityCypher();
-	c = reachabilityJava();
-	println(b - a);
-	println(a - b);
-	println(c - a);
-	println(a - c);
-}
-
-public set[loc] reachabilityCypher() {
-	set[loc] reachableMethods = executeQuery("start x=node:nodes(loc = \'|" + theMethod.uri + "|\'), y=node(*) match p = shortestPath(x-[:TO*]-\>y) where last(p) \<\> x return last(p)", #set[loc], true);
-	
-	int count = 0;
-	for (m <- reachableMethods)
-		count += 1;
-	println("# of methods reachable: <count>");
+public set[loc] reachabilityCypher(loc method) {
+	set[loc] reachableMethods = executeQuery("start x=node:nodes(loc = \'|" + method.uri + "|\'), y=node(*) match p = shortestPath(x-[:TO*]-\>y) where last(p) \<\> x return last(p)", #set[loc], true);
 	return reachableMethods;
 }
