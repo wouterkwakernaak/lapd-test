@@ -5,4 +5,4 @@
 3. Import all projects into Eclipse
 4. Run rascal-eclipse as an Eclipse Application
 5. Import lapd-test in the second level Eclipse
-6. Run the tests by importing a module of your choice and typing :test in the console or run the benchmarks by importing the Benchmarks module.
+6. Run the tests or benchmarks
