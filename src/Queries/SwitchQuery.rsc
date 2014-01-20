@@ -8,18 +8,8 @@ import IO;
 public set[Statement] switchJava() {
 	return executeJavaQuery(2, "", #set[Statement]);
 }
-//
-//public set[Statement] switchLoadFullValue(str id) {
-//	set[Declaration] asts = read(id, #set[Declaration]);
-//	return findNoDefaultSwitch(asts);	
-//}
-//
-//public set[Statement] switchLoadFullValue(loc file) {
-//	set[Declaration] asts = readBinaryValueFile(#set[Declaration], file);
-//	return findNoDefaultSwitch(asts);
-//}
-//
-private set[Statement] switchRascal(set[Declaration] asts) {
+
+public set[Statement] switchRascal(set[Declaration] asts) {
 	switchStmts = for(ast <- asts) {
 		visit(ast) {
 			case \switch(e, list[Statement] stmts): {
@@ -36,17 +26,6 @@ private set[Statement] switchRascal(set[Declaration] asts) {
 		};
 	}
 	return {s | s <- switchStmts};
-}
-
-public void compareSwitches() {
-	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
-	a = switchCypher();
-	b = switchJava();
-	c = switchRascal(asts);
-	println(a - b);
-	println(b - a);
-	println(a - c);
-	println(c - a);
 }
 
 public set[Statement] switchCypher() {

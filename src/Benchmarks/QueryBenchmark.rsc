@@ -4,9 +4,12 @@ import Queries::ResursiveMethodsQuery;
 import Queries::ReachabilityQuery;
 import Queries::Util;
 import Queries::SwitchQuery;
+import Queries::ExceptionQuery;
 import util::Benchmark;
 import Benchmarks::Util;
 import lang::csv::IO;
+import lang::java::m3::AST;
+import LAPD;
 
 public void benchmarkRecursiveMethodsQuery() {
 	int runs = 5;
@@ -32,16 +35,23 @@ public void benchmarkReachabilityQuery() {
 	writeCSV(results, resultsFile);
 }
 
-// needs an inserted set of java ASTs
 public void benchmarkSwitchQuery() {
 	int runs = 5;
-	str id = largeJavaPrjId;
-	loc file = grabBinaryFileLoc();
-	rel[str query, int time] results = {<"java", measureQueryLapd(runs, switchJavaQuery)>, 
-	<"hybrid", measureQueryLapd(runs, switchHybrid)>, 
-	<"full lapd", measureQueryLapd(id, runs, switchLoadFullValue)>,
-	<"full binary", measureQueryLapd(file, runs, switchLoadFullValue)>};
-	loc resultsFile = grabBenchmarkResultsLoc("switch-query");
+	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
+	rel[str query, list[int] time] results = {<"java", measureQueryLapd(runs, switchJava)>, 
+	<"cypher", measureQueryLapd(runs, switchCypher)>, 
+	<"rascal", measureQueryLapd(asts, runs, switchRascal)>};
+	loc resultsFile = grabBenchmarkResultsLoc("hsqldb-switch-query");
+	writeCSV(results, resultsFile);
+}
+
+public void benchmarkExceptionQuery() {
+	int runs = 5;
+	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
+	rel[str query, list[int] time] results = {<"java", measureQueryLapd(runs, exceptionJava)>, 
+	<"cypher", measureQueryLapd(runs, exceptionCypher)>, 
+	<"rascal", measureQueryLapd(asts, runs, exceptionRascal)>};
+	loc resultsFile = grabBenchmarkResultsLoc("hsqldb-exception-query");
 	writeCSV(results, resultsFile);
 }
 
