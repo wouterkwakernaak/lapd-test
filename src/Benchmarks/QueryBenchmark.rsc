@@ -37,7 +37,7 @@ public void benchmarkReachabilityQuery() {
 
 public void benchmarkSwitchQuery() {
 	int runs = 5;
-	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
+	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'hsqldb\') return n", #set[Declaration], false);
 	rel[str query, list[int] time] results = {<"java", measureQueryLapd(runs, switchJava)>, 
 	<"cypher", measureQueryLapd(runs, switchCypher)>, 
 	<"rascal", measureQueryLapd(asts, runs, switchRascal)>};
@@ -47,7 +47,7 @@ public void benchmarkSwitchQuery() {
 
 public void benchmarkExceptionQuery() {
 	int runs = 5;
-	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'smallsql\') return n", #set[Declaration], false);
+	set[Declaration] asts = executeQuery("start n = node:nodes(id = \'hsqldb\') return n", #set[Declaration], false);
 	rel[str query, list[int] time] results = {<"java", measureQueryLapd(runs, exceptionJava)>, 
 	<"cypher", measureQueryLapd(runs, exceptionCypher)>, 
 	<"rascal", measureQueryLapd(asts, runs, exceptionRascal)>};

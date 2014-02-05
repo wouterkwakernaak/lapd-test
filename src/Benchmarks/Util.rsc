@@ -48,7 +48,7 @@ public void insertLargeProjectIntoBinaryFile() {
 
 public void insertASTsIntoLAPD() {
 	set[Declaration] asts = createAstsFromDirectory(largeAnalysisProjectLoc, true);
-	write(smallJavaPrjId, asts);
+	write(largeJavaPrjId, asts);
 }
 
 public void insertASTsIntoBinary() {
